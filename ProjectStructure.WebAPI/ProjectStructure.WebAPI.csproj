@@ -12,4 +12,8 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ProjectStructure.BLL\ProjectStructure.BLL.csproj" />
+  </ItemGroup>
+
 </Project>

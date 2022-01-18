@@ -4,7 +4,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-
+using ProjectStructure.BLL;
+using ProjectStructure.DAL;
 
 namespace ProjectStructure.WebAPI
 {
@@ -21,6 +22,8 @@ namespace ProjectStructure.WebAPI
         {
 
             services.AddControllers();
+            services.AddRepositories();
+            services.AddServices();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectStructure.WebAPI", Version = "v1" });
