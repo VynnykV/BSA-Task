@@ -13,6 +13,7 @@ namespace ProjectStructure.BLL
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<ITaskService, TaskService>();
             services.AddScoped<ITeamService, TeamService>();
+            services.AddScoped<ISelectionService, SelectionService>();
             services.AddAutoMapper(typeof(UserProfile), typeof(ProjectProfile), typeof(TaskProfile), typeof(TeamProfile));
             return services;
         }
