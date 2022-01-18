@@ -121,7 +121,7 @@ namespace ProjectStructure.DAL
                 Description = "Magni fugit ut consequatur sit voluptatem eum.",
                 State = TaskState.Created,
                 CreatedAt = DateTime.Parse("2018-09-01T12:05:42.9991778+00:00"),
-                FinishedAt = DateTime.Parse("2020-04-28T08:56:35.3695014+03:00")
+                FinishedAt = DateTime.Parse("2021-04-28T08:56:35.3695014+03:00")
             };
             var task2 = new Task()
             {

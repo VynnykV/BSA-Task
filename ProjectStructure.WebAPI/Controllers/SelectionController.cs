@@ -18,7 +18,7 @@ namespace ProjectStructure.WebAPI.Controllers
         }
 
         [HttpGet("tasksQuantityInProject/{userId}")]
-        public ActionResult<ProjectCountTasksDTO> TasksInProjectByUserCount(int userId)
+        public ActionResult<IEnumerable<ProjectCountTasksDTO>> TasksInProjectByUserCount(int userId)
         {
             return Ok(_selectionService.TasksInProjectByUserCount(userId));
         }
