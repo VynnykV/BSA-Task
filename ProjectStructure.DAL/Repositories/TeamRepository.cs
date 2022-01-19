@@ -39,7 +39,9 @@ namespace ProjectStructure.DAL.Repositories
             {
                 throw new ArgumentException("Team with such an id is not found", nameof(entity.Id));
             }
-            team = entity;
+
+            team.Name = entity.Name;
+            team.CreatedAt = entity.CreatedAt;
         }
 
         public void Delete(int id)
