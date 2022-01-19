@@ -57,7 +57,12 @@ namespace ProjectStructure.DAL.Repositories
                     throw new ArgumentException("Team with such an id is not found", nameof(entity.TeamId));
                 }
             }
-            user = entity;
+
+            user.FirstName = entity.FirstName;
+            user.LastName = entity.LastName;
+            user.Email = entity.Email;
+            user.RegisteredAt = entity.RegisteredAt;
+            user.BirthDay = entity.BirthDay;
         }
 
         public void Delete(int id)

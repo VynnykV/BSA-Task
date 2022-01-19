@@ -54,9 +54,9 @@ namespace ProjectStructure.DAL.Repositories
                 var newTeam = _context.Teams.FirstOrDefault(t => t.Id == entity.TeamId);
                 if (newTeam is not null)
                 {
-                    entity.TeamId = newTeam.Id;
-                    entity.Team = newTeam;
-                    entity.Team.Projects.Add(entity);
+                    project.TeamId = newTeam.Id;
+                    project.Team = newTeam;
+                    project.Team.Projects.Add(entity);
                 }
                 else
                     throw new ArgumentException("Team with such an id is not found", nameof(entity.TeamId));
@@ -67,15 +67,18 @@ namespace ProjectStructure.DAL.Repositories
                 var newAuthor = _context.Users.FirstOrDefault(p => p.Id == entity.AuthorId);
                 if (newAuthor is not null)
                 {
-                    entity.AuthorId = newAuthor.Id;
-                    entity.Author = newAuthor;
-                    entity.Author.Projects.Add(entity);
+                    project.AuthorId = newAuthor.Id;
+                    project.Author = newAuthor;
+                    project.Author.Projects.Add(entity);
                 }
                 else
                     throw new ArgumentException("Author with such an id is not found", nameof(entity.TeamId));
             }
 
-            project = entity;
+            project.Name = entity.Name;
+            project.Description = entity.Description;
+            project.Deadline = entity.Deadline;
+            project.CreatedAt = entity.CreatedAt;
         }
 
         public void Delete(int id)

@@ -56,9 +56,9 @@ namespace ProjectStructure.DAL.Repositories
                 var newPerformer = _context.Users.FirstOrDefault(u => u.Id == entity.PerformerId);
                 if (newPerformer is not null)
                 {
-                    entity.PerformerId = newPerformer.Id;
-                    entity.Performer = newPerformer;
-                    entity.Performer.Tasks.Add(entity);
+                    task.PerformerId = newPerformer.Id;
+                    task.Performer = newPerformer;
+                    task.Performer.Tasks.Add(entity);
                 }
                 else
                     throw new ArgumentException("Performer with such an id is not found", nameof(entity.PerformerId));
@@ -69,14 +69,19 @@ namespace ProjectStructure.DAL.Repositories
                 var newProject = _context.Projects.FirstOrDefault(p => p.Id == entity.ProjectId);
                 if (newProject is not null)
                 {
-                    entity.ProjectId = newProject.Id;
-                    entity.Project = newProject;
-                    entity.Project.Tasks.Add(entity);
+                    task.ProjectId = newProject.Id;
+                    task.Project = newProject;
+                    task.Project.Tasks.Add(entity);
                 }
                 else
                     throw new ArgumentException("Project with such an id is not found", nameof(entity.PerformerId));
             }
-            task = entity;
+
+            task.Name = entity.Name;
+            task.Description = entity.Description;
+            task.State = entity.State;
+            task.CreatedAt = entity.CreatedAt;
+            task.FinishedAt = entity.FinishedAt;
         }
 
         public void Delete(int id)
