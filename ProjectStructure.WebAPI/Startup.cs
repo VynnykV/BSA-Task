@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using ProjectStructure.BLL;
 using ProjectStructure.DAL;
+using ProjectStructure.WebAPI.Filters;
 
 namespace ProjectStructure.WebAPI
 {
@@ -24,6 +25,8 @@ namespace ProjectStructure.WebAPI
             services.AddControllers();
             services.AddRepositories();
             services.AddServices();
+            services
+                .AddMvcCore(options => options.Filters.Add(typeof(CustomExceptionFilterAttribute)));
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectStructure.WebAPI", Version = "v1" });
