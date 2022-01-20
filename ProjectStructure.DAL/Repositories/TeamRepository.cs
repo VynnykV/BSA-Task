@@ -6,7 +6,7 @@ using ProjectStructure.DAL.Interfaces;
 
 namespace ProjectStructure.DAL.Repositories
 {
-    public class TeamRepository : IRepository<Team>
+    public class TeamRepository : ITeamRepository
     {
         private readonly DataContext _context;
 

@@ -6,7 +6,7 @@ using ProjectStructure.DAL.Interfaces;
 
 namespace ProjectStructure.DAL.Repositories
 {
-    public class ProjectRepository : IRepository<Project>
+    public class ProjectRepository : IProjectRepository
     {
         private readonly DataContext _context;
 
