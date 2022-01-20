@@ -12,7 +12,7 @@ namespace ProjectStructure.DAL.Entities
         public string Email { get; set; }
         public DateTime RegisteredAt { get; set; }
         public DateTime BirthDay { get; set; }
-        public ICollection<Project> Projects { get; set; } = new List<Project>();
-        public ICollection<Task> Tasks { get; set; } = new List<Task>();
+        public ICollection<Project> Projects { get; set; }
+        public ICollection<Task> Tasks { get; set; }
     }
 }

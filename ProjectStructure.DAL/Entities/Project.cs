@@ -13,6 +13,6 @@ namespace ProjectStructure.DAL.Entities
         public string Description { get; set; }
         public DateTime Deadline { get; set; }
         public DateTime CreatedAt { get; set; }
-        public ICollection<Task> Tasks { get; set; } = new List<Task>();
+        public ICollection<Task> Tasks { get; set; }
     }
 }
