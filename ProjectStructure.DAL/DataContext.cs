@@ -34,6 +34,7 @@ namespace ProjectStructure.DAL
                 .WithOne(p => p.Author)
                 .HasForeignKey(p => p.AuthorId);
 
+            modelBuilder.Seed();
             base.OnModelCreating(modelBuilder);
         }
     }
