@@ -62,23 +62,9 @@ namespace ProjectStructure.DAL.Repositories
                     throw new ArgumentException("Team with such an id is not found", nameof(entity.TeamId));
             }
 
-            if (entity.AuthorId != project.AuthorId)
-            {
-                var newAuthor = _context.Users.FirstOrDefault(p => p.Id == entity.AuthorId);
-                if (newAuthor is not null)
-                {
-                    project.AuthorId = newAuthor.Id;
-                    project.Author = newAuthor;
-                    project.Author.Projects.Add(entity);
-                }
-                else
-                    throw new ArgumentException("Author with such an id is not found", nameof(entity.TeamId));
-            }
-
             project.Name = entity.Name;
             project.Description = entity.Description;
             project.Deadline = entity.Deadline;
-            project.CreatedAt = entity.CreatedAt;
         }
 
         public void Delete(int id)

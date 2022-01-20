@@ -8,7 +8,7 @@ namespace ProjectStructure.BLL.Interfaces
         UserDTO AddUser(UserCreateDTO user);
         IEnumerable<UserDTO> GetAll();
         UserDTO GetUserById(int id);
-        void UpdateUser(UserDTO user);
+        void UpdateUser(UserUpdateDTO user);
         void DeleteUser(int id);
     }
 }

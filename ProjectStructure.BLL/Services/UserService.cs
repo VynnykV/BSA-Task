@@ -38,7 +38,7 @@ namespace ProjectStructure.BLL.Services
             return _mapper.Map<UserDTO>(userEntity);
         }
 
-        public void UpdateUser(UserDTO user)
+        public void UpdateUser(UserUpdateDTO user)
         {
             var userEntity = _mapper.Map<User>(user);
             if (_unitOfWork.UserRepository.GetById(user.Id) is null)

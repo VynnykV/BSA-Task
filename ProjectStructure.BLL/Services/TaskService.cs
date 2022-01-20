@@ -38,7 +38,7 @@ namespace ProjectStructure.BLL.Services
             return _mapper.Map<TaskDTO>(taskEntity);
         }
 
-        public void UpdateTask(TaskDTO task)
+        public void UpdateTask(TaskUpdateDTO task)
         {
             var taskEntity = _mapper.Map<Task>(task);
             if (_unitOfWork.TaskRepository.GetById(task.Id) is null)

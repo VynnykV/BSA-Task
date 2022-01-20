@@ -36,7 +36,7 @@ namespace ProjectStructure.WebAPI.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] TaskDTO task)
+        public IActionResult Put([FromBody] TaskUpdateDTO task)
         {
             _taskService.UpdateTask(task);
             return NoContent();

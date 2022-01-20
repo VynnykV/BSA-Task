@@ -36,7 +36,7 @@ namespace ProjectStructure.WebAPI.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] UserDTO user)
+        public IActionResult Put([FromBody] UserUpdateDTO user)
         {
             _userService.UpdateUser(user);
             return NoContent();

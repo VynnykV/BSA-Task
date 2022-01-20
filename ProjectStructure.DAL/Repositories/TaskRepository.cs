@@ -64,23 +64,9 @@ namespace ProjectStructure.DAL.Repositories
                     throw new ArgumentException("Performer with such an id is not found", nameof(entity.PerformerId));
             }
 
-            if (entity.ProjectId != task.ProjectId)
-            {
-                var newProject = _context.Projects.FirstOrDefault(p => p.Id == entity.ProjectId);
-                if (newProject is not null)
-                {
-                    task.ProjectId = newProject.Id;
-                    task.Project = newProject;
-                    task.Project.Tasks.Add(entity);
-                }
-                else
-                    throw new ArgumentException("Project with such an id is not found", nameof(entity.PerformerId));
-            }
-
             task.Name = entity.Name;
             task.Description = entity.Description;
             task.State = entity.State;
-            task.CreatedAt = entity.CreatedAt;
             task.FinishedAt = entity.FinishedAt;
         }
 

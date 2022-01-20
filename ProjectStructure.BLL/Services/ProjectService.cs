@@ -38,7 +38,7 @@ namespace ProjectStructure.BLL.Services
             return _mapper.Map<ProjectDTO>(projectEntity);
         }
 
-        public void UpdateProject(ProjectDTO project)
+        public void UpdateProject(ProjectUpdateDTO project)
         {
             var projectEntity = _mapper.Map<Project>(project);
             if (_unitOfWork.ProjectRepository.GetById(project.Id) is null)

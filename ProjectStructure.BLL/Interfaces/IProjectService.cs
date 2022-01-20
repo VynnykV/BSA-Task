@@ -8,7 +8,7 @@ namespace ProjectStructure.BLL.Interfaces
         ProjectDTO AddProject(ProjectCreateDTO project);
         IEnumerable<ProjectDTO> GetAll();
         ProjectDTO GetProjectById(int id);
-        void UpdateProject(ProjectDTO project);
+        void UpdateProject(ProjectUpdateDTO project);
         void DeleteProject(int id);
     }
 }

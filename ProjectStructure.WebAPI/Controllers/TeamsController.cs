@@ -36,7 +36,7 @@ namespace ProjectStructure.WebAPI.Controllers
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] TeamDTO team)
+        public IActionResult Put([FromBody] TeamUpdateDTO team)
         {
             _teamService.UpdateTeam(team);
             return NoContent();

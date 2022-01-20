@@ -38,7 +38,7 @@ namespace ProjectStructure.BLL.Services
             return _mapper.Map<TeamDTO>(teamEntity);
         }
 
-        public void UpdateTeam(TeamDTO team)
+        public void UpdateTeam(TeamUpdateDTO team)
         {
             var teamEntity = _mapper.Map<Team>(team);
             if (_unitOfWork.TeamRepository.GetById(team.Id) is null)
@@ -51,7 +51,7 @@ namespace ProjectStructure.BLL.Services
             var teamEntity = _unitOfWork.TeamRepository.GetById(id);
             if (teamEntity is null)
                 throw new NotFoundException(nameof(Team), id);
-            _unitOfWork.UserRepository.Delete(id);
+            _unitOfWork.TeamRepository.Delete(id);
         }
     }
 }

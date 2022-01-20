@@ -41,7 +41,6 @@ namespace ProjectStructure.DAL.Repositories
             }
 
             team.Name = entity.Name;
-            team.CreatedAt = entity.CreatedAt;
         }
 
         public void Delete(int id)

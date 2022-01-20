@@ -8,7 +8,7 @@ namespace ProjectStructure.BLL.Interfaces
         TaskDTO AddTask(TaskCreateDTO task);
         IEnumerable<TaskDTO> GetAll();
         TaskDTO GetTaskById(int id);
-        void UpdateTask(TaskDTO task);
+        void UpdateTask(TaskUpdateDTO task);
         void DeleteTask(int id);
     }
 }

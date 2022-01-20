@@ -61,7 +61,6 @@ namespace ProjectStructure.DAL.Repositories
             user.FirstName = entity.FirstName;
             user.LastName = entity.LastName;
             user.Email = entity.Email;
-            user.RegisteredAt = entity.RegisteredAt;
             user.BirthDay = entity.BirthDay;
         }
 
