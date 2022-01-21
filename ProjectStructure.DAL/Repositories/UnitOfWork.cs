@@ -35,5 +35,10 @@ namespace ProjectStructure.DAL.Repositories
         {
             get { return _teamRepository ??= new TeamRepository(_context); }
         }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
+        }
     }
 }

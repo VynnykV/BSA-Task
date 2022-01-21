@@ -22,6 +22,7 @@ namespace ProjectStructure.BLL.Services
             var userEntity = _mapper.Map<User>(user);
             userEntity.RegisteredAt = DateTime.Now;
             _unitOfWork.UserRepository.Create(userEntity);
+            _unitOfWork.SaveChanges();
             return _mapper.Map<UserDTO>(userEntity);
         }
 
@@ -44,6 +45,7 @@ namespace ProjectStructure.BLL.Services
             if (_unitOfWork.UserRepository.GetById(user.Id) is null)
                 throw new NotFoundException((nameof(User), user.Id));
             _unitOfWork.UserRepository.Update(userEntity);
+            _unitOfWork.SaveChanges();
         }
 
         public void DeleteUser(int id)
@@ -52,6 +54,7 @@ namespace ProjectStructure.BLL.Services
             if (userEntity is null)
                 throw new NotFoundException((nameof(User), id));
             _unitOfWork.UserRepository.Delete(id);
+            _unitOfWork.SaveChanges();
         }
     }
 }
