@@ -22,6 +22,7 @@ namespace ProjectStructure.BLL.Services
             var projectEntity = _mapper.Map<Project>(project);
             projectEntity.CreatedAt = DateTime.Now;
             _unitOfWork.ProjectRepository.Create(projectEntity);
+            _unitOfWork.SaveChanges();
             return _mapper.Map<ProjectDTO>(projectEntity);
         }
 
@@ -44,6 +45,7 @@ namespace ProjectStructure.BLL.Services
             if (_unitOfWork.ProjectRepository.GetById(project.Id) is null)
                 throw new NotFoundException(nameof(Project), project.Id);
             _unitOfWork.ProjectRepository.Update(projectEntity);
+            _unitOfWork.SaveChanges();
         }
 
         public void DeleteProject(int id)
@@ -52,6 +54,7 @@ namespace ProjectStructure.BLL.Services
             if (projectEntity is null)
                 throw new NotFoundException(nameof(Project), id);
             _unitOfWork.ProjectRepository.Delete(id);
+            _unitOfWork.SaveChanges();
         }
     }
 }

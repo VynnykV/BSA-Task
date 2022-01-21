@@ -82,7 +82,8 @@ namespace ProjectStructure.BLL.Services
 
         public UserInfoDTO GetUserInfo(int userId)
         {
-            var result = _unitOfWork.UserRepository.GetAll()
+            var users = _unitOfWork.UserRepository.GetAll();
+            var result = users
                 .Select(u => new UserInfoDTO()
                 {
                     User = _mapper.Map<UserDTO>(u),

@@ -22,6 +22,7 @@ namespace ProjectStructure.BLL.Services
             var teamEntity = _mapper.Map<Team>(team);
             teamEntity.CreatedAt = DateTime.Now;
             _unitOfWork.TeamRepository.Create(teamEntity);
+            _unitOfWork.SaveChanges();
             return _mapper.Map<TeamDTO>(teamEntity);
         }
 
@@ -44,6 +45,7 @@ namespace ProjectStructure.BLL.Services
             if (_unitOfWork.TeamRepository.GetById(team.Id) is null)
                 throw new NotFoundException((nameof(Team), team.Id));
             _unitOfWork.TeamRepository.Update(teamEntity);
+            _unitOfWork.SaveChanges();
         }
 
         public void DeleteTeam(int id)
@@ -52,6 +54,7 @@ namespace ProjectStructure.BLL.Services
             if (teamEntity is null)
                 throw new NotFoundException(nameof(Team), id);
             _unitOfWork.TeamRepository.Delete(id);
+            _unitOfWork.SaveChanges();
         }
     }
 }

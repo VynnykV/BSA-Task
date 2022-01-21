@@ -6,5 +6,6 @@
         IProjectRepository ProjectRepository { get; }
         ITaskRepository TaskRepository { get; }
         ITeamRepository TeamRepository { get; }
+        void SaveChanges();
     }
 }
