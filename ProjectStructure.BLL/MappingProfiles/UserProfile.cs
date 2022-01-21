@@ -10,6 +10,7 @@ namespace ProjectStructure.BLL.MappingProfiles
         {
             CreateMap<User, UserDTO>().ReverseMap();
             CreateMap<UserCreateDTO, User>();
+            CreateMap<UserUpdateDTO, User>();
         }
     }
 }

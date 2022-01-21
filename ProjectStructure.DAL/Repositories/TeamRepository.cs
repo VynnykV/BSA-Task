@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
 
 namespace ProjectStructure.DAL.Repositories
 {
-    public class TeamRepository : IRepository<Team>
+    public class TeamRepository : ITeamRepository
     {
         private readonly DataContext _context;
 
@@ -17,7 +18,9 @@ namespace ProjectStructure.DAL.Repositories
 
         public IEnumerable<Team> GetAll()
         {
-            return _context.Teams;
+            return _context.Teams
+                .Include(t=>t.Users)
+                .Include(t=>t.Projects);
         }
 
         public Team GetById(int id)
@@ -27,7 +30,6 @@ namespace ProjectStructure.DAL.Repositories
 
         public Team Create(Team entity)
         {
-            entity.Id = _context.Teams.Last().Id + 1;
             _context.Teams.Add(entity);
             return entity;
         }
@@ -41,7 +43,7 @@ namespace ProjectStructure.DAL.Repositories
             }
 
             team.Name = entity.Name;
-            team.CreatedAt = entity.CreatedAt;
+            _context.Teams.Update(team);
         }
 
         public void Delete(int id)

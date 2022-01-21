@@ -6,34 +6,39 @@ namespace ProjectStructure.DAL.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly DataContext _context;
-        private IRepository<User> _userRepository;
-        private IRepository<Project> _projectRepository;
-        private IRepository<Team> _teamRepository;
-        private IRepository<Task> _taskRepository;
+        private IUserRepository _userRepository;
+        private IProjectRepository _projectRepository;
+        private ITeamRepository _teamRepository;
+        private ITaskRepository _taskRepository;
 
         public UnitOfWork(DataContext context)
         {
             _context = context;
         }
 
-        public IRepository<User> UserRepository
+        public IUserRepository UserRepository
         {
             get { return _userRepository ??= new UserRepository(_context); }
         }
 
-        public IRepository<Project> ProjectRepository
+        public IProjectRepository ProjectRepository
         {
             get { return _projectRepository ??= new ProjectRepository(_context); }
         }
 
-        public IRepository<Task> TaskRepository
+        public ITaskRepository TaskRepository
         {
             get { return _taskRepository ??= new TaskRepository(_context); }
         }
 
-        public IRepository<Team> TeamRepository
+        public ITeamRepository TeamRepository
         {
             get { return _teamRepository ??= new TeamRepository(_context); }
+        }
+
+        public void SaveChanges()
+        {
+            _context.SaveChanges();
         }
     }
 }

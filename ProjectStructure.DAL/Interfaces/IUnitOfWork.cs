@@ -1,12 +1,11 @@
-﻿using ProjectStructure.DAL.Entities;
-
-namespace ProjectStructure.DAL.Interfaces
+﻿namespace ProjectStructure.DAL.Interfaces
 {
     public interface IUnitOfWork
     {
-        IRepository<User> UserRepository { get; }
-        IRepository<Project> ProjectRepository { get; }
-        IRepository<Task> TaskRepository { get; }
-        IRepository<Team> TeamRepository { get; }
+        IUserRepository UserRepository { get; }
+        IProjectRepository ProjectRepository { get; }
+        ITaskRepository TaskRepository { get; }
+        ITeamRepository TeamRepository { get; }
+        void SaveChanges();
     }
 }

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
 
 namespace ProjectStructure.DAL.Repositories
 {
-    public class ProjectRepository : IRepository<Project>
+    public class ProjectRepository : IProjectRepository
     {
         private readonly DataContext _context;
 
@@ -17,7 +18,11 @@ namespace ProjectStructure.DAL.Repositories
 
         public IEnumerable<Project> GetAll()
         {
-            return _context.Projects;
+            return _context.Projects
+                .Include(p => p.Tasks)
+                .Include(p=>p.Team)
+                .ThenInclude(t=>t.Users)
+                .ToList();
         }
 
         public Project GetById(int id)
@@ -27,20 +32,8 @@ namespace ProjectStructure.DAL.Repositories
 
         public Project Create(Project entity)
         {
-            entity.Id = _context.Projects.Last().Id + 1;
-            var team = _context.Teams.FirstOrDefault(t => t.Id == entity.TeamId);
-            var author = _context.Users.FirstOrDefault(u => u.Id == entity.AuthorId);
-            if (team is not null && author is not null)
-            {
-                entity.Author = author;
-                entity.Team = team;
-                entity.Author.Projects.Add(entity);
-                entity.Team.Projects.Add(entity);
-            }
-            else
-                throw new ArgumentException("Team or author with such an id doesn't exists");
-            _context.Projects.Add(entity);
-            return entity;
+            var newEntity = _context.Projects.Add(entity);
+            return newEntity.Entity;
         }
 
         public void Update(Project entity)
@@ -48,37 +41,12 @@ namespace ProjectStructure.DAL.Repositories
             var project = GetById(entity.Id);
             if (project is null)
                 throw new ArgumentException("Project with such an id is not found", nameof(entity.Id));
-
-            if (entity.TeamId != project.TeamId)
-            {
-                var newTeam = _context.Teams.FirstOrDefault(t => t.Id == entity.TeamId);
-                if (newTeam is not null)
-                {
-                    project.TeamId = newTeam.Id;
-                    project.Team = newTeam;
-                    project.Team.Projects.Add(entity);
-                }
-                else
-                    throw new ArgumentException("Team with such an id is not found", nameof(entity.TeamId));
-            }
-
-            if (entity.AuthorId != project.AuthorId)
-            {
-                var newAuthor = _context.Users.FirstOrDefault(p => p.Id == entity.AuthorId);
-                if (newAuthor is not null)
-                {
-                    project.AuthorId = newAuthor.Id;
-                    project.Author = newAuthor;
-                    project.Author.Projects.Add(entity);
-                }
-                else
-                    throw new ArgumentException("Author with such an id is not found", nameof(entity.TeamId));
-            }
-
+            
+            project.TeamId = entity.TeamId;
             project.Name = entity.Name;
             project.Description = entity.Description;
             project.Deadline = entity.Deadline;
-            project.CreatedAt = entity.CreatedAt;
+            _context.Projects.Update(project);
         }
 
         public void Delete(int id)
@@ -86,8 +54,6 @@ namespace ProjectStructure.DAL.Repositories
             var project = GetById(id);
             if (project is null)
                 throw new ArgumentException("Project with such an id is not found", nameof(id));
-            project.Author.Projects.Remove(project);
-            project.Team.Projects.Remove(project);
             _context.Projects.Remove(project);
         }
     }

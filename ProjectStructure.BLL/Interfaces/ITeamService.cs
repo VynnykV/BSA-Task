@@ -8,7 +8,7 @@ namespace ProjectStructure.BLL.Interfaces
         TeamDTO AddTeam(TeamCreateDTO team);
         IEnumerable<TeamDTO> GetAll();
         TeamDTO GetTeamById(int id);
-        void UpdateTeam(TeamDTO team);
+        void UpdateTeam(TeamUpdateDTO team);
         void DeleteTeam(int id);
     }
 }

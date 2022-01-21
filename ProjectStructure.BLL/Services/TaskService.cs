@@ -22,6 +22,7 @@ namespace ProjectStructure.BLL.Services
             var taskEntity = _mapper.Map<Task>(task);
             taskEntity.CreatedAt = DateTime.Now;
             _unitOfWork.TaskRepository.Create(taskEntity);
+            _unitOfWork.SaveChanges();
             return _mapper.Map<TaskDTO>(taskEntity);
         }
 
@@ -38,12 +39,13 @@ namespace ProjectStructure.BLL.Services
             return _mapper.Map<TaskDTO>(taskEntity);
         }
 
-        public void UpdateTask(TaskDTO task)
+        public void UpdateTask(TaskUpdateDTO task)
         {
             var taskEntity = _mapper.Map<Task>(task);
             if (_unitOfWork.TaskRepository.GetById(task.Id) is null)
                 throw new NotFoundException((nameof(Task), task.Id));
             _unitOfWork.TaskRepository.Update(taskEntity);
+            _unitOfWork.SaveChanges();
         }
 
         public void DeleteTask(int id)
@@ -52,6 +54,7 @@ namespace ProjectStructure.BLL.Services
             if (taskEntity is null)
                 throw new NotFoundException(nameof(Task), id);
             _unitOfWork.TaskRepository.Delete(id);
+            _unitOfWork.SaveChanges();
         }
     }
 }

@@ -10,7 +10,8 @@ namespace ProjectStructure.BLL.MappingProfiles
         public TaskProfile()
         {
             CreateMap<Task, TaskDTO>().ReverseMap();
-            CreateMap<TaskCreateDTO, TeamDTO>();
+            CreateMap<TaskCreateDTO, Task>();
+            CreateMap<TaskUpdateDTO, Task>();
         }
     }
 }

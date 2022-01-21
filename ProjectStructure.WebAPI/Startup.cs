@@ -23,7 +23,7 @@ namespace ProjectStructure.WebAPI
         {
 
             services.AddControllers();
-            services.AddRepositories();
+            services.AddRepositories(Configuration);
             services.AddServices();
             services
                 .AddMvcCore(options => options.Filters.Add(typeof(CustomExceptionFilterAttribute)));
