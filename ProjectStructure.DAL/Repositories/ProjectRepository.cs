@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 namespace ProjectStructure.DAL.Repositories
 {
@@ -16,29 +17,28 @@ namespace ProjectStructure.DAL.Repositories
             _context = context;
         }
 
-        public IEnumerable<Project> GetAll()
+        public async Task<IEnumerable<Project>> GetAll()
         {
-            return _context.Projects
+            return await _context.Projects
                 .Include(p => p.Tasks)
                 .Include(p=>p.Team)
                 .ThenInclude(t=>t.Users)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Project GetById(int id)
+        public async Task<Project> GetById(int id)
         {
-            return _context.Projects.FirstOrDefault(p => p.Id == id);
+            return await _context.Projects.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Project Create(Project entity)
+        public async Task Create(Project entity)
         {
-            var newEntity = _context.Projects.Add(entity);
-            return newEntity.Entity;
+            await _context.Projects.AddAsync(entity);
         }
 
-        public void Update(Project entity)
+        public async Task Update(Project entity)
         {
-            var project = GetById(entity.Id);
+            var project = await GetById(entity.Id);
             if (project is null)
                 throw new ArgumentException("Project with such an id is not found", nameof(entity.Id));
             
@@ -49,9 +49,9 @@ namespace ProjectStructure.DAL.Repositories
             _context.Projects.Update(project);
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var project = GetById(id);
+            var project = await GetById(id);
             if (project is null)
                 throw new ArgumentException("Project with such an id is not found", nameof(id));
             _context.Projects.Remove(project);

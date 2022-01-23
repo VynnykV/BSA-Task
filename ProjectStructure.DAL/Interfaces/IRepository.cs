@@ -1,18 +1,20 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ProjectStructure.DAL.Entities;
+using Task = System.Threading.Tasks.Task;
 
 namespace ProjectStructure.DAL.Interfaces
 {
     public interface IRepository<TEntity> where TEntity : BaseEntity
     {
-        IEnumerable<TEntity> GetAll();
+        Task<IEnumerable<TEntity>> GetAll();
 
-        TEntity GetById(int id);
+        Task<TEntity> GetById(int id);
 
-        TEntity Create(TEntity entity);
+        Task Create(TEntity entity);
 
-        void Update(TEntity entity);
+        Task Update(TEntity entity);
 
-        void Delete(int id);
+        Task Delete(int id);
     }
 }

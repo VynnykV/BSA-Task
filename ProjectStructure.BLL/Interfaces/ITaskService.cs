@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ProjectStructure.Common.DTO.Task;
 
 namespace ProjectStructure.BLL.Interfaces
 {
     public interface ITaskService
     {
-        TaskDTO AddTask(TaskCreateDTO task);
-        IEnumerable<TaskDTO> GetAll();
-        TaskDTO GetTaskById(int id);
-        void UpdateTask(TaskUpdateDTO task);
-        void DeleteTask(int id);
+        Task<TaskDTO> AddTask(TaskCreateDTO task);
+        Task<IEnumerable<TaskDTO>> GetAll();
+        Task<TaskDTO> GetTaskById(int id);
+        Task UpdateTask(TaskUpdateDTO task);
+        Task DeleteTask(int id);
     }
 }

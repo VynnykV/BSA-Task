@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using ProjectStructure.BLL.Exceptions;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Task;
-using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
+using Assignment = ProjectStructure.DAL.Entities.Task;
 
 namespace ProjectStructure.BLL.Services
 {
@@ -17,44 +18,44 @@ namespace ProjectStructure.BLL.Services
         {
         }
 
-        public TaskDTO AddTask(TaskCreateDTO task)
+        public async Task<TaskDTO> AddTask(TaskCreateDTO task)
         {
-            var taskEntity = _mapper.Map<Task>(task);
+            var taskEntity = _mapper.Map<Assignment>(task);
             taskEntity.CreatedAt = DateTime.Now;
-            _unitOfWork.TaskRepository.Create(taskEntity);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.TaskRepository.Create(taskEntity);
+            await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<TaskDTO>(taskEntity);
         }
 
-        public IEnumerable<TaskDTO> GetAll()
+        public async Task<IEnumerable<TaskDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<TaskDTO>>(_unitOfWork.TaskRepository.GetAll());
+            return _mapper.Map<IEnumerable<TaskDTO>>(await _unitOfWork.TaskRepository.GetAll());
         }
 
-        public TaskDTO GetTaskById(int id)
+        public async Task<TaskDTO> GetTaskById(int id)
         {
-            var taskEntity = _unitOfWork.TaskRepository.GetById(id);
+            var taskEntity = await _unitOfWork.TaskRepository.GetById(id);
             if (taskEntity is null)
-                throw new NotFoundException(nameof(Task), id);
+                throw new NotFoundException(nameof(Assignment), id);
             return _mapper.Map<TaskDTO>(taskEntity);
         }
 
-        public void UpdateTask(TaskUpdateDTO task)
+        public async Task UpdateTask(TaskUpdateDTO task)
         {
-            var taskEntity = _mapper.Map<Task>(task);
-            if (_unitOfWork.TaskRepository.GetById(task.Id) is null)
-                throw new NotFoundException((nameof(Task), task.Id));
-            _unitOfWork.TaskRepository.Update(taskEntity);
-            _unitOfWork.SaveChanges();
+            var taskEntity = _mapper.Map<Assignment>(task);
+            if (await _unitOfWork.TaskRepository.GetById(task.Id) is null)
+                throw new NotFoundException((nameof(Assignment), task.Id));
+            await _unitOfWork.TaskRepository.Update(taskEntity);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public void DeleteTask(int id)
+        public async Task DeleteTask(int id)
         {
-            var taskEntity = _unitOfWork.TaskRepository.GetById(id);
+            var taskEntity = await _unitOfWork.TaskRepository.GetById(id);
             if (taskEntity is null)
-                throw new NotFoundException(nameof(Task), id);
-            _unitOfWork.TaskRepository.Delete(id);
-            _unitOfWork.SaveChanges();
+                throw new NotFoundException(nameof(Assignment), id);
+            await _unitOfWork.TaskRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

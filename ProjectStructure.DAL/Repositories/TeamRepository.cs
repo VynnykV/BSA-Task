@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 namespace ProjectStructure.DAL.Repositories
 {
@@ -16,27 +17,27 @@ namespace ProjectStructure.DAL.Repositories
             _context = context;
         }
 
-        public IEnumerable<Team> GetAll()
+        public async Task<IEnumerable<Team>> GetAll()
         {
-            return _context.Teams
+            return await _context.Teams
                 .Include(t=>t.Users)
-                .Include(t=>t.Projects);
+                .Include(t=>t.Projects)
+                .ToListAsync();
         }
 
-        public Team GetById(int id)
+        public async Task<Team> GetById(int id)
         {
-            return _context.Teams.FirstOrDefault(t => t.Id == id);
+            return await _context.Teams.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public Team Create(Team entity)
+        public async Task Create(Team entity)
         {
-            _context.Teams.Add(entity);
-            return entity;
+            await _context.Teams.AddAsync(entity);
         }
 
-        public void Update(Team entity)
+        public async Task Update(Team entity)
         {
-            var team = GetById(entity.Id);
+            var team = await GetById(entity.Id);
             if (team is null)
             {
                 throw new ArgumentException("Team with such an id is not found", nameof(entity.Id));
@@ -46,9 +47,9 @@ namespace ProjectStructure.DAL.Repositories
             _context.Teams.Update(team);
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var team = GetById(id);
+            var team = await GetById(id);
             if (team is null)
                 throw new ArgumentException("Team with such an id is not found", nameof(id));
             _context.Teams.Remove(team);
