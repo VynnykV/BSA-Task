@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Task;
+using ProjectStructure.DAL.Entities;
 
 namespace ProjectStructure.WebAPI.Controllers
 {
@@ -40,6 +41,13 @@ namespace ProjectStructure.WebAPI.Controllers
         public async Task<IActionResult> Put([FromBody] TaskUpdateDTO task)
         {
             await _taskService.UpdateTask(task);
+            return NoContent();
+        }
+
+        [HttpPatch("{id}/{newState}")]
+        public async Task<IActionResult> Patch(int id, TaskState newState)
+        {
+            await _taskService.UpdateTaskState(id, newState);
             return NoContent();
         }
 

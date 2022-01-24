@@ -1,10 +1,15 @@
-﻿using Client.ViewModels;
+﻿using System;
+using Client.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using Task = Client.ViewModels.Task;
+using Timer = System.Timers.Timer;
 
 namespace Client
 {
@@ -13,6 +18,7 @@ namespace Client
         private readonly IConfigurationRoot _config;
         private readonly HttpClient _httpClient;
         private readonly string baseUrl;
+        private static readonly Random _random = new Random();
 
         public QueryService(
             IConfigurationRoot config,
@@ -20,7 +26,30 @@ namespace Client
         {
             _config = config;
             _httpClient = httpClient;
-            baseUrl = _config.GetSection("Url").Value;
+            baseUrl = _config.GetSection("Url").Value + "Selection/";
+        }
+
+        public async Task<int> MarkRandomTaskWithDelay(double milliseconds)
+        {
+            var tcs = new TaskCompletionSource<int>();
+            var timer = new Timer(milliseconds) {AutoReset = false};
+            timer.Elapsed += async (sender, args) =>
+            {
+                timer.Dispose();
+                var response = await _httpClient.GetAsync(_config.GetSection("Url").Value + "tasks");
+                var json = await response.Content.ReadAsStringAsync();
+                var tasks = JsonConvert.DeserializeObject<IEnumerable<Task>>(json);
+                var randomTask = tasks
+                    .ElementAtOrDefault(_random.Next(0, tasks.Count()));
+                if (randomTask is not null)
+                {
+                    await _httpClient
+                        .PatchAsync( _config.GetSection("Url").Value + "tasks/" + $"{randomTask.Id}/{TaskState.Done}", new StringContent(""));
+                    tcs.SetResult(randomTask.Id);
+                }
+            };
+            timer.Start();
+            return await tcs.Task;
         }
 
         public async Task<IEnumerable<ProjectCountTasksDTO>> TasksInProjectByUserCount(int userId)

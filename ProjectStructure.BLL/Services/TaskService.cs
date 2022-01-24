@@ -5,8 +5,10 @@ using AutoMapper;
 using ProjectStructure.BLL.Exceptions;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Task;
+using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
 using Assignment = ProjectStructure.DAL.Entities.Task;
+using Task = System.Threading.Tasks.Task;
 
 namespace ProjectStructure.BLL.Services
 {
@@ -45,6 +47,18 @@ namespace ProjectStructure.BLL.Services
             var taskEntity = _mapper.Map<Assignment>(task);
             if (await _unitOfWork.TaskRepository.GetById(task.Id) is null)
                 throw new NotFoundException((nameof(Assignment), task.Id));
+            await _unitOfWork.TaskRepository.Update(taskEntity);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
+        public async Task UpdateTaskState(int id, TaskState state)
+        {
+            var taskEntity = await _unitOfWork.TaskRepository.GetById(id);
+            if (taskEntity is null)
+                throw new NotFoundException((nameof(Assignment), id));
+            taskEntity.State = state;
+            if(taskEntity.State == TaskState.Done)
+                taskEntity.FinishedAt = DateTime.Now;
             await _unitOfWork.TaskRepository.Update(taskEntity);
             await _unitOfWork.SaveChangesAsync();
         }
