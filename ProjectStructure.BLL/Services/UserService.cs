@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using ProjectStructure.BLL.Exceptions;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.User;
 using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 namespace ProjectStructure.BLL.Services
 {
@@ -17,44 +19,44 @@ namespace ProjectStructure.BLL.Services
         {
         }
 
-        public UserDTO AddUser(UserCreateDTO user)
+        public async Task<UserDTO> AddUser(UserCreateDTO user)
         {
             var userEntity = _mapper.Map<User>(user);
             userEntity.RegisteredAt = DateTime.Now;
-            _unitOfWork.UserRepository.Create(userEntity);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.UserRepository.Create(userEntity);
+            await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<UserDTO>(userEntity);
         }
 
-        public IEnumerable<UserDTO> GetAll()
+        public async Task<IEnumerable<UserDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<UserDTO>>(_unitOfWork.UserRepository.GetAll());
+            return _mapper.Map<IEnumerable<UserDTO>>(await _unitOfWork.UserRepository.GetAll());
         }
 
-        public UserDTO GetUserById(int id)
+        public async Task<UserDTO> GetUserById(int id)
         {
-            var userEntity = _unitOfWork.UserRepository.GetById(id);
+            var userEntity = await _unitOfWork.UserRepository.GetById(id);
             if (userEntity is null)
                 throw new NotFoundException((nameof(User), id));
             return _mapper.Map<UserDTO>(userEntity);
         }
 
-        public void UpdateUser(UserUpdateDTO user)
+        public async Task UpdateUser(UserUpdateDTO user)
         {
             var userEntity = _mapper.Map<User>(user);
-            if (_unitOfWork.UserRepository.GetById(user.Id) is null)
+            if (await _unitOfWork.UserRepository.GetById(user.Id) is null)
                 throw new NotFoundException((nameof(User), user.Id));
-            _unitOfWork.UserRepository.Update(userEntity);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.UserRepository.Update(userEntity);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public void DeleteUser(int id)
+        public async Task DeleteUser(int id)
         {
-            var userEntity = _unitOfWork.UserRepository.GetById(id);
+            var userEntity = await _unitOfWork.UserRepository.GetById(id);
             if (userEntity is null)
                 throw new NotFoundException((nameof(User), id));
-            _unitOfWork.UserRepository.Delete(id);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.UserRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

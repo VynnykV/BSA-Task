@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using ProjectStructure.BLL.Exceptions;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Project;
 using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 namespace ProjectStructure.BLL.Services
 {
@@ -17,44 +19,44 @@ namespace ProjectStructure.BLL.Services
         {
         }
 
-        public ProjectDTO AddProject(ProjectCreateDTO project)
+        public async Task<ProjectDTO> AddProject(ProjectCreateDTO project)
         {
             var projectEntity = _mapper.Map<Project>(project);
             projectEntity.CreatedAt = DateTime.Now;
-            _unitOfWork.ProjectRepository.Create(projectEntity);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.ProjectRepository.Create(projectEntity);
+            await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<ProjectDTO>(projectEntity);
         }
 
-        public IEnumerable<ProjectDTO> GetAll()
+        public async Task<IEnumerable<ProjectDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<ProjectDTO>>(_unitOfWork.ProjectRepository.GetAll());
+            return _mapper.Map<IEnumerable<ProjectDTO>>(await _unitOfWork.ProjectRepository.GetAll());
         }
 
-        public ProjectDTO GetProjectById(int id)
+        public async Task<ProjectDTO> GetProjectById(int id)
         {
-            var projectEntity = _unitOfWork.ProjectRepository.GetById(id);
+            var projectEntity = await _unitOfWork.ProjectRepository.GetById(id);
             if (projectEntity is null)
                 throw new NotFoundException(nameof(Project), id);
             return _mapper.Map<ProjectDTO>(projectEntity);
         }
 
-        public void UpdateProject(ProjectUpdateDTO project)
+        public async Task UpdateProject(ProjectUpdateDTO project)
         {
             var projectEntity = _mapper.Map<Project>(project);
-            if (_unitOfWork.ProjectRepository.GetById(project.Id) is null)
+            if (await _unitOfWork.ProjectRepository.GetById(project.Id) is null)
                 throw new NotFoundException(nameof(Project), project.Id);
-            _unitOfWork.ProjectRepository.Update(projectEntity);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.ProjectRepository.Update(projectEntity);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public void DeleteProject(int id)
+        public async Task DeleteProject(int id)
         {
-            var projectEntity = _unitOfWork.ProjectRepository.GetById(id);
+            var projectEntity = await _unitOfWork.ProjectRepository.GetById(id);
             if (projectEntity is null)
                 throw new NotFoundException(nameof(Project), id);
-            _unitOfWork.ProjectRepository.Delete(id);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.ProjectRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

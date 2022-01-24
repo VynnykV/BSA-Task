@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using ProjectStructure.BLL.Exceptions;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Team;
 using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 namespace ProjectStructure.BLL.Services
 {
@@ -17,44 +19,44 @@ namespace ProjectStructure.BLL.Services
         {
         }
 
-        public TeamDTO AddTeam(TeamCreateDTO team)
+        public async Task<TeamDTO> AddTeam(TeamCreateDTO team)
         {
             var teamEntity = _mapper.Map<Team>(team);
             teamEntity.CreatedAt = DateTime.Now;
-            _unitOfWork.TeamRepository.Create(teamEntity);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.TeamRepository.Create(teamEntity);
+            await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<TeamDTO>(teamEntity);
         }
 
-        public IEnumerable<TeamDTO> GetAll()
+        public async Task<IEnumerable<TeamDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<TeamDTO>>(_unitOfWork.TeamRepository.GetAll());
+            return _mapper.Map<IEnumerable<TeamDTO>>(await _unitOfWork.TeamRepository.GetAll());
         }
 
-        public TeamDTO GetTeamById(int id)
+        public async Task<TeamDTO> GetTeamById(int id)
         {
-            var teamEntity = _unitOfWork.TeamRepository.GetById(id);
+            var teamEntity = await _unitOfWork.TeamRepository.GetById(id);
             if (teamEntity is null)
                 throw new NotFoundException(nameof(Team), id);
             return _mapper.Map<TeamDTO>(teamEntity);
         }
 
-        public void UpdateTeam(TeamUpdateDTO team)
+        public async Task UpdateTeam(TeamUpdateDTO team)
         {
             var teamEntity = _mapper.Map<Team>(team);
-            if (_unitOfWork.TeamRepository.GetById(team.Id) is null)
+            if (await _unitOfWork.TeamRepository.GetById(team.Id) is null)
                 throw new NotFoundException((nameof(Team), team.Id));
-            _unitOfWork.TeamRepository.Update(teamEntity);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.TeamRepository.Update(teamEntity);
+            await _unitOfWork.SaveChangesAsync();
         }
 
-        public void DeleteTeam(int id)
+        public async Task DeleteTeam(int id)
         {
-            var teamEntity = _unitOfWork.TeamRepository.GetById(id);
+            var teamEntity = await _unitOfWork.TeamRepository.GetById(id);
             if (teamEntity is null)
                 throw new NotFoundException(nameof(Team), id);
-            _unitOfWork.TeamRepository.Delete(id);
-            _unitOfWork.SaveChanges();
+            await _unitOfWork.TeamRepository.Delete(id);
+            await _unitOfWork.SaveChangesAsync();
         }
     }
 }

@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using ProjectStructure.DAL.Entities;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using ProjectStructure.DAL.Interfaces;
+using Assignment = ProjectStructure.DAL.Entities.Task;
 
 namespace ProjectStructure.DAL.Repositories
 {
@@ -15,25 +16,24 @@ namespace ProjectStructure.DAL.Repositories
             _context = context;
         }
 
-        public IEnumerable<Task> GetAll()
+        public async Task<IEnumerable<Assignment>> GetAll()
         {
-            return _context.Tasks;
+            return await _context.Tasks.ToListAsync();
         }
 
-        public Task GetById(int id)
+        public async Task<Assignment> GetById(int id)
         {
-            return _context.Tasks.FirstOrDefault(t => t.Id == id);
+            return await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id);
         }
 
-        public Task Create(Task entity)
+        public async Task Create(Assignment entity)
         {
-            var newEntity = _context.Tasks.Add(entity);
-            return newEntity.Entity;
+            await _context.Tasks.AddAsync(entity);
         }
 
-        public void Update(Task entity)
+        public async Task Update(Assignment entity)
         {
-            var task = GetById(entity.Id);
+            var task = await GetById(entity.Id);
             if (task is null)
             {
                 throw new ArgumentException("Task with such an id is not found", nameof(entity.Id));
@@ -47,9 +47,9 @@ namespace ProjectStructure.DAL.Repositories
             _context.Tasks.Update(task);
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var task = GetById(id);
+            var task = await GetById(id);
             if (task is null)
                 throw new ArgumentException("Task with such an id is not found", nameof(id));
             _context.Tasks.Remove(task);

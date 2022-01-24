@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Project;
@@ -17,35 +18,35 @@ namespace ProjectStructure.WebAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ProjectDTO> CreateProject([FromBody] ProjectCreateDTO project)
+        public async Task<ActionResult<ProjectDTO>> CreateProject([FromBody] ProjectCreateDTO project)
         {
-            var createdProject = _projectService.AddProject(project);
+            var createdProject = await _projectService.AddProject(project);
             return CreatedAtAction("GetById", "projects", new { id = createdProject.Id }, createdProject);
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProjectDTO>> Get()
+        public async Task<ActionResult<IEnumerable<ProjectDTO>>> Get()
         {
-            return Ok(_projectService.GetAll());
+            return Ok(await _projectService.GetAll());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<ProjectDTO> GetById(int id)
+        public async Task<ActionResult<ProjectDTO>> GetById(int id)
         {
-            return Ok(_projectService.GetProjectById(id));
+            return Ok(await _projectService.GetProjectById(id));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] ProjectUpdateDTO project)
+        public async Task<IActionResult> Put([FromBody] ProjectUpdateDTO project)
         {
-            _projectService.UpdateProject(project);
+            await _projectService.UpdateProject(project);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _projectService.DeleteProject(id);
+            await _projectService.DeleteProject(id);
             return NoContent();
         }
     }

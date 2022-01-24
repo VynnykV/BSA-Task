@@ -1,4 +1,6 @@
-﻿namespace ProjectStructure.DAL.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace ProjectStructure.DAL.Interfaces
 {
     public interface IUnitOfWork
     {
@@ -7,5 +9,6 @@
         ITaskRepository TaskRepository { get; }
         ITeamRepository TeamRepository { get; }
         void SaveChanges();
+        Task SaveChangesAsync();
     }
 }
