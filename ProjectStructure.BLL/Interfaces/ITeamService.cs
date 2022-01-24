@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ProjectStructure.Common.DTO.Team;
 
 namespace ProjectStructure.BLL.Interfaces
 {
     public interface ITeamService
     {
-        TeamDTO AddTeam(TeamCreateDTO team);
-        IEnumerable<TeamDTO> GetAll();
-        TeamDTO GetTeamById(int id);
-        void UpdateTeam(TeamUpdateDTO team);
-        void DeleteTeam(int id);
+        Task<TeamDTO> AddTeam(TeamCreateDTO team);
+        Task<IEnumerable<TeamDTO>> GetAll();
+        Task<TeamDTO> GetTeamById(int id);
+        Task UpdateTeam(TeamUpdateDTO team);
+        Task DeleteTeam(int id);
     }
 }

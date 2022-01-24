@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ProjectStructure.Common.DTO.Project;
 
 namespace ProjectStructure.BLL.Interfaces
 {
     public interface IProjectService
     {
-        ProjectDTO AddProject(ProjectCreateDTO project);
-        IEnumerable<ProjectDTO> GetAll();
-        ProjectDTO GetProjectById(int id);
-        void UpdateProject(ProjectUpdateDTO project);
-        void DeleteProject(int id);
+        Task<ProjectDTO> AddProject(ProjectCreateDTO project);
+        Task<IEnumerable<ProjectDTO>> GetAll();
+        Task<ProjectDTO> GetProjectById(int id);
+        Task UpdateProject(ProjectUpdateDTO project);
+        Task DeleteProject(int id);
     }
 }

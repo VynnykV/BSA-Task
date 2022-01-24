@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ProjectStructure.Common.DTO.Project;
 using ProjectStructure.Common.DTO.Selection;
 using ProjectStructure.Common.DTO.Task;
@@ -8,12 +9,12 @@ namespace ProjectStructure.BLL.Interfaces
 {
     public interface ISelectionService
     {
-        IEnumerable<ProjectCountTasksDTO> TasksInProjectByUserCount(int userId);
-        IEnumerable<TaskDTO> GetTasksLimitedByName(int userId, int symbolsQuantity);
-        IEnumerable<FinishedTaskDTO> GetFinishedTasks(int userId, int year);
-        public IEnumerable<TeamUsersDTO> GetOlderUsers(int age);
-        IEnumerable<UserWithTasksDTO> GetSortedUsersWithTasks();
-        UserInfoDTO GetUserInfo(int userId);
-        ProjectInfoDTO GetProjectInfo(int projectId);
+        Task<IEnumerable<ProjectCountTasksDTO>> TasksInProjectByUserCount(int userId);
+        Task<IEnumerable<TaskDTO>> GetTasksLimitedByName(int userId, int symbolsQuantity);
+        Task<IEnumerable<FinishedTaskDTO>> GetFinishedTasks(int userId, int year);
+        Task<IEnumerable<TeamUsersDTO>> GetOlderUsers(int age);
+        Task<IEnumerable<UserWithTasksDTO>> GetSortedUsersWithTasks();
+        Task<UserInfoDTO> GetUserInfo(int userId);
+        Task<ProjectInfoDTO> GetProjectInfo(int projectId);
     }
 }

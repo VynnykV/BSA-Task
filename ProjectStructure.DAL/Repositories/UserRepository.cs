@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using ProjectStructure.DAL.Entities;
 using ProjectStructure.DAL.Interfaces;
+using Task = System.Threading.Tasks.Task;
 
 namespace ProjectStructure.DAL.Repositories
 {
@@ -16,28 +17,28 @@ namespace ProjectStructure.DAL.Repositories
             _context = context;
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<IEnumerable<User>> GetAll()
         {
-            return _context.Users
+            return await _context.Users
                 .Include(u => u.Tasks)
                 .Include(u => u.Projects)
-                .ThenInclude(p => p.Tasks);
+                .ThenInclude(p => p.Tasks)
+                .ToListAsync();
         }
 
-        public User GetById(int id)
+        public async Task<User> GetById(int id)
         {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
 
-        public User Create(User entity)
+        public async Task Create(User entity)
         {
-            var newEntity = _context.Users.Add(entity);
-            return newEntity.Entity;
+            await _context.Users.AddAsync(entity);
         }
 
-        public void Update(User entity)
+        public async Task Update(User entity)
         {
-            var user = GetById(entity.Id);
+            var user = await GetById(entity.Id);
             if (user is null)
                 throw new ArgumentException("User with such an id is not found", nameof(entity.Id));
 
@@ -49,9 +50,9 @@ namespace ProjectStructure.DAL.Repositories
             _context.Users.Update(user);
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            var user = GetById(id);
+            var user = await GetById(id);
             if (user is null)
                 throw new ArgumentException("User with such an id is not found", nameof(id));
             _context.Users.Remove(user);

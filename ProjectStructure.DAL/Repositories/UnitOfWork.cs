@@ -1,4 +1,4 @@
-﻿using ProjectStructure.DAL.Entities;
+﻿using System.Threading.Tasks;
 using ProjectStructure.DAL.Interfaces;
 
 namespace ProjectStructure.DAL.Repositories
@@ -39,6 +39,11 @@ namespace ProjectStructure.DAL.Repositories
         public void SaveChanges()
         {
             _context.SaveChanges();
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
     }
 }

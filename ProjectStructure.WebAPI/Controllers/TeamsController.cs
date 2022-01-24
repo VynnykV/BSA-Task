@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Team;
@@ -17,35 +18,35 @@ namespace ProjectStructure.WebAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateTeam([FromBody] TeamCreateDTO team)
+        public async Task<IActionResult> CreateTeam([FromBody] TeamCreateDTO team)
         {
-            var createdTeam = _teamService.AddTeam(team);
+            var createdTeam = await _teamService.AddTeam(team);
             return CreatedAtAction("GetById", "teams", new { id = createdTeam.Id }, createdTeam);
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<TeamDTO>> Get()
+        public async Task<ActionResult<IEnumerable<TeamDTO>>> Get()
         {
-            return Ok(_teamService.GetAll());
+            return Ok(await _teamService.GetAll());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TeamDTO> GetById(int id)
+        public async Task<ActionResult<TeamDTO>> GetById(int id)
         {
-            return Ok(_teamService.GetTeamById(id));
+            return Ok(await _teamService.GetTeamById(id));
         }
 
         [HttpPut]
-        public IActionResult Put([FromBody] TeamUpdateDTO team)
+        public async Task<IActionResult> Put([FromBody] TeamUpdateDTO team)
         {
-            _teamService.UpdateTeam(team);
+            await _teamService.UpdateTeam(team);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _teamService.DeleteTeam(id);
+            await _teamService.DeleteTeam(id);
             return NoContent();
         }
     }

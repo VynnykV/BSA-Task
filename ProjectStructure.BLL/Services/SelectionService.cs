@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Project;
@@ -20,9 +21,9 @@ namespace ProjectStructure.BLL.Services
         {
         }
 
-        public IEnumerable<ProjectCountTasksDTO> TasksInProjectByUserCount(int userId)
+        public async Task<IEnumerable<ProjectCountTasksDTO>> TasksInProjectByUserCount(int userId)
         {
-            var result = _unitOfWork.ProjectRepository.GetAll()
+            var result = (await _unitOfWork.ProjectRepository.GetAll())
                 .Where(p => p.AuthorId == userId)
                 .Select(project => new ProjectCountTasksDTO()
                 {
@@ -32,16 +33,16 @@ namespace ProjectStructure.BLL.Services
             return result;
         }
 
-        public IEnumerable<TaskDTO> GetTasksLimitedByName(int userId, int symbolsQuantity)
+        public async Task<IEnumerable<TaskDTO>> GetTasksLimitedByName(int userId, int symbolsQuantity)
         {
-            var result = _unitOfWork.TaskRepository.GetAll()
+            var result = (await _unitOfWork.TaskRepository.GetAll())
                 .Where(t => t.PerformerId == userId && t.Name.Length < symbolsQuantity);
             return _mapper.Map<IEnumerable<TaskDTO>>(result);
         }
 
-        public IEnumerable<FinishedTaskDTO> GetFinishedTasks(int userId, int year)
+        public async Task<IEnumerable<FinishedTaskDTO>> GetFinishedTasks(int userId, int year)
         {
-            var result = _unitOfWork.TaskRepository.GetAll()
+            var result = (await _unitOfWork.TaskRepository.GetAll())
                 .Where(t => t.FinishedAt?.Year == year && t.PerformerId == userId)
                 .Select(r => new FinishedTaskDTO()
                 {
@@ -51,9 +52,9 @@ namespace ProjectStructure.BLL.Services
             return result;
         }
 
-        public IEnumerable<TeamUsersDTO> GetOlderUsers(int age)
+        public async Task<IEnumerable<TeamUsersDTO>> GetOlderUsers(int age)
         {
-            var result = _unitOfWork.TeamRepository.GetAll()
+            var result = (await _unitOfWork.TeamRepository.GetAll())
                 .Select(team => new TeamUsersDTO
                 {
                     Id = team.Id,
@@ -66,9 +67,9 @@ namespace ProjectStructure.BLL.Services
             return result;
         }
 
-        public IEnumerable<UserWithTasksDTO> GetSortedUsersWithTasks()
+        public async Task<IEnumerable<UserWithTasksDTO>> GetSortedUsersWithTasks()
         {
-            var result = _unitOfWork.UserRepository.GetAll()
+            var result = (await _unitOfWork.UserRepository.GetAll())
                 .Select(u => new UserWithTasksDTO()
                 {
                     User = _mapper.Map<UserDTO>(u),
@@ -80,9 +81,9 @@ namespace ProjectStructure.BLL.Services
             return result;
         }
 
-        public UserInfoDTO GetUserInfo(int userId)
+        public async Task<UserInfoDTO> GetUserInfo(int userId)
         {
-            var users = _unitOfWork.UserRepository.GetAll();
+            var users = (await _unitOfWork.UserRepository.GetAll());
             var result = users
                 .Select(u => new UserInfoDTO()
                 {
@@ -105,9 +106,9 @@ namespace ProjectStructure.BLL.Services
             return result;
         }
 
-        public ProjectInfoDTO GetProjectInfo(int projectId)
+        public async Task<ProjectInfoDTO> GetProjectInfo(int projectId)
         {
-            var projects = _unitOfWork.ProjectRepository.GetAll();
+            var projects = await _unitOfWork.ProjectRepository.GetAll();
             var result = projects
                 .Select(p => new ProjectInfoDTO()
                 {
