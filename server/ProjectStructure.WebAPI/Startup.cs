@@ -27,6 +27,7 @@ namespace ProjectStructure.WebAPI
             services.AddServices();
             services
                 .AddMvcCore(options => options.Filters.Add(typeof(CustomExceptionFilterAttribute)));
+            services.AddCors();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "ProjectStructure.WebAPI", Version = "v1" });
@@ -41,6 +42,11 @@ namespace ProjectStructure.WebAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ProjectStructure.WebAPI v1"));
             }
+
+            app.UseCors(opt => opt
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins("http://localhost:4200"));
 
             app.UseHttpsRedirection();
 
