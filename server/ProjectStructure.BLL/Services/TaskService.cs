@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ProjectStructure.BLL.Exceptions;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Task;
@@ -31,7 +32,7 @@ namespace ProjectStructure.BLL.Services
 
         public async Task<IEnumerable<TaskDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<TaskDTO>>(await _unitOfWork.TaskRepository.GetAll());
+            return _mapper.Map<IEnumerable<TaskDTO>>(await _unitOfWork.TaskRepository.Query().ToListAsync());
         }
 
         public async Task<TaskDTO> GetTaskById(int id)
@@ -44,10 +45,15 @@ namespace ProjectStructure.BLL.Services
 
         public async Task UpdateTask(TaskUpdateDTO task)
         {
-            var taskEntity = _mapper.Map<Assignment>(task);
-            if (await _unitOfWork.TaskRepository.GetById(task.Id) is null)
+            var taskEntity = await _unitOfWork.TaskRepository.GetById(task.Id);
+            if (taskEntity is null)
                 throw new NotFoundException((nameof(Assignment), task.Id));
-            await _unitOfWork.TaskRepository.Update(taskEntity);
+            taskEntity.PerformerId = task.PerformerId;
+            taskEntity.Name = task.Name;
+            taskEntity.Description = task.Description;
+            taskEntity.FinishedAt = task.FinishedAt;
+            taskEntity.State = task.State;
+            _unitOfWork.TaskRepository.Update(taskEntity);
             await _unitOfWork.SaveChangesAsync();
         }
 
@@ -59,7 +65,7 @@ namespace ProjectStructure.BLL.Services
             taskEntity.State = state;
             if(taskEntity.State == TaskState.Done)
                 taskEntity.FinishedAt = DateTime.Now;
-            await _unitOfWork.TaskRepository.Update(taskEntity);
+            _unitOfWork.TaskRepository.Update(taskEntity);
             await _unitOfWork.SaveChangesAsync();
         }
 

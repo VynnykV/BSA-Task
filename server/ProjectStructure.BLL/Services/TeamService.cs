@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ProjectStructure.BLL.Exceptions;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.Team;
@@ -30,7 +31,7 @@ namespace ProjectStructure.BLL.Services
 
         public async Task<IEnumerable<TeamDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<TeamDTO>>(await _unitOfWork.TeamRepository.GetAll());
+            return _mapper.Map<IEnumerable<TeamDTO>>(await _unitOfWork.TeamRepository.Query().ToListAsync());
         }
 
         public async Task<TeamDTO> GetTeamById(int id)
@@ -43,10 +44,11 @@ namespace ProjectStructure.BLL.Services
 
         public async Task UpdateTeam(TeamUpdateDTO team)
         {
-            var teamEntity = _mapper.Map<Team>(team);
-            if (await _unitOfWork.TeamRepository.GetById(team.Id) is null)
+            var teamEntity = await _unitOfWork.TeamRepository.GetById(team.Id);
+            if (teamEntity is null)
                 throw new NotFoundException((nameof(Team), team.Id));
-            await _unitOfWork.TeamRepository.Update(teamEntity);
+            teamEntity.Name = team.Name;
+            _unitOfWork.TeamRepository.Update(teamEntity);
             await _unitOfWork.SaveChangesAsync();
         }
 
