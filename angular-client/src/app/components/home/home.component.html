@@ -1,0 +1,18 @@
+<nav class="navbar navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/']">
+      <img src="assets/logo-social.og-aff399bc2ff28efd30a516155a46717a.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Angular-client
+    </a>
+    <div class="d-flex justify-content-end">
+      <button type="button" class="btn btn-light">Users</button>
+      <button type="button" class="btn btn-light">Teams</button>
+      <button type="button" class="btn btn-light">Projects</button>
+      <button type="button" class="btn btn-light">Tasks</button>
+    </div>
+  </div>
+</nav>
+<div class="main">
+  <router-outlet></router-outlet>
+</div>
+
