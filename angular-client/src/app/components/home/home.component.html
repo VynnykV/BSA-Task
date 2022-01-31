@@ -6,13 +6,13 @@
     </a>
     <div class="d-flex justify-content-end">
       <button type="button" class="btn btn-light">Users</button>
-      <button type="button" class="btn btn-light">Teams</button>
+      <button type="button" class="btn btn-light" [routerLink]="['/teams']">Teams</button>
       <button type="button" class="btn btn-light">Projects</button>
       <button type="button" class="btn btn-light">Tasks</button>
     </div>
   </div>
 </nav>
-<div class="main">
+<div class="container-fluid">
   <router-outlet></router-outlet>
 </div>
 

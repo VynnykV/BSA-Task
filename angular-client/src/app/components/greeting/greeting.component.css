@@ -1,3 +1,5 @@
-.kitty{
-  align-self: center;
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
