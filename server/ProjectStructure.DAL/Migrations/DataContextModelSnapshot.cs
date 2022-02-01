@@ -339,7 +339,8 @@ namespace ProjectStructure.DAL.Migrations
                 {
                     b.HasOne("ProjectStructure.DAL.Entities.Team", "Team")
                         .WithMany("Users")
-                        .HasForeignKey("TeamId");
+                        .HasForeignKey("TeamId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Team");
                 });

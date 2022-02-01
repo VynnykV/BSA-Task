@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ProjectStructure.BLL.Exceptions;
 using ProjectStructure.BLL.Interfaces;
 using ProjectStructure.Common.DTO.User;
@@ -30,12 +31,18 @@ namespace ProjectStructure.BLL.Services
 
         public async Task<IEnumerable<UserDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<UserDTO>>(await _unitOfWork.UserRepository.GetAll());
+            return _mapper.Map<IEnumerable<UserDTO>>(await _unitOfWork.UserRepository
+                .Query()
+                .Include(u=>u.Team)
+                .ToListAsync());
         }
 
         public async Task<UserDTO> GetUserById(int id)
         {
-            var userEntity = await _unitOfWork.UserRepository.GetById(id);
+            var userEntity = await _unitOfWork.UserRepository
+                .Query()
+                .Include(u => u.Team)
+                .FirstOrDefaultAsync(u => u.Id == id);
             if (userEntity is null)
                 throw new NotFoundException((nameof(User), id));
             return _mapper.Map<UserDTO>(userEntity);
@@ -43,10 +50,15 @@ namespace ProjectStructure.BLL.Services
 
         public async Task UpdateUser(UserUpdateDTO user)
         {
-            var userEntity = _mapper.Map<User>(user);
-            if (await _unitOfWork.UserRepository.GetById(user.Id) is null)
+            var userEntity = await _unitOfWork.UserRepository.GetById(user.Id);
+            if (userEntity is null)
                 throw new NotFoundException((nameof(User), user.Id));
-            await _unitOfWork.UserRepository.Update(userEntity);
+            userEntity.FirstName = user.FirstName;
+            userEntity.LastName = user.LastName;
+            userEntity.TeamId = user.TeamId;
+            userEntity.BirthDay = user.BirthDay;
+            userEntity.Email = user.Email;
+            _unitOfWork.UserRepository.Update(userEntity);
             await _unitOfWork.SaveChangesAsync();
         }
 

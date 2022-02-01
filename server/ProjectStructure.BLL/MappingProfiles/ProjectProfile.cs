@@ -8,7 +8,7 @@ namespace ProjectStructure.BLL.MappingProfiles
     {
         public ProjectProfile()
         {
-            CreateMap<Project, ProjectDTO>().ReverseMap();
+            CreateMap<Project, ProjectDTO>();
             CreateMap<ProjectCreateDTO, Project>();
             CreateMap<ProjectUpdateDTO, Project>();
         }

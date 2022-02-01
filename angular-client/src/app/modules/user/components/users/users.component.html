@@ -1,0 +1,26 @@
+<h1>Users</h1>
+<button type="button" class="btn btn-outline-success" [routerLink]="['/create-user']">Create user</button>
+<table class="table table-striped table-hover">
+  <tr>
+    <th>Id</th>
+    <th>Team</th>
+    <th>First name</th>
+    <th>Last name</th>
+    <th>Email</th>
+    <th>Birthday</th>
+    <th>Registered at</th>
+  </tr>
+  <tr *ngFor="let user of users">
+    <td>{{user.id}}</td>
+    <td>{{user.team?.name}}</td>
+    <td>{{user.firstName}}</td>
+    <td>{{user.lastName}}</td>
+    <td>{{user.email}}</td>
+    <td>{{user.birthDay | customDate}}</td>
+    <td>{{user.registeredAt | customDate}}</td>
+    <td>
+      <button type="button" class="btn btn-outline-warning" [routerLink]="['/edit-user', user.id]">Edit</button>
+      <button type="button" class="btn btn-outline-danger" (click)="deleteUser(user.id)">Delete</button>
+    </td>
+  </tr>
+</table>
