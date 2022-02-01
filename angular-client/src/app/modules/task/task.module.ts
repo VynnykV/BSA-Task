@@ -8,6 +8,7 @@ import {TaskService} from "./task.service";
 import { ProjectTasksComponent } from './components/project-tasks/project-tasks.component';
 import {ReactiveFormsModule} from "@angular/forms";
 import { SetTaskStateComponent } from './components/set-task-state/set-task-state.component';
+import { ChangeTaskStateColorDirective } from './directives/change-taskState-color.directive';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { SetTaskStateComponent } from './components/set-task-state/set-task-stat
     CreateTaskComponent,
     EditTaskComponent,
     ProjectTasksComponent,
-    SetTaskStateComponent
+    SetTaskStateComponent,
+    ChangeTaskStateColorDirective
   ],
     imports: [
         CommonModule,

@@ -16,7 +16,7 @@
     <td>{{task.performer.lastName + " " + task.performer.firstName}}</td>
     <td>{{task.name}}</td>
     <td>{{task.description}}</td>
-    <td>{{taskState[task.state]}}</td>
+    <td ChangeTaskStateColor [taskState]="task.state">{{taskState[task.state]}}</td>
     <td>{{task.createdAt | date : 'dd.MM.yyyy'}}</td>
     <td>{{task?.finishedAt | date : 'dd.MM.yyyy'}}</td>
     <td>
