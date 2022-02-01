@@ -5,5 +5,4 @@ export interface NewTask {
   performerId: number;
   name: string;
   description: string;
-  taskState: TaskState;
 }

@@ -25,6 +25,7 @@ namespace ProjectStructure.BLL.Services
         {
             var taskEntity = _mapper.Map<Assignment>(task);
             taskEntity.CreatedAt = DateTime.Now;
+            taskEntity.State = TaskState.Created;
             await _unitOfWork.TaskRepository.Create(taskEntity);
             await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<TaskDTO>(taskEntity);
@@ -35,7 +36,9 @@ namespace ProjectStructure.BLL.Services
             return _mapper.Map<IEnumerable<TaskDTO>>(await _unitOfWork.TaskRepository
                 .Query()
                 .Include(t=>t.Performer)
+                .ThenInclude(u=>u.Team)
                 .Include(t=>t.Project)
+                .ThenInclude(p=>p.Team)
                 .ToListAsync());
         }
 
@@ -44,7 +47,9 @@ namespace ProjectStructure.BLL.Services
             var taskEntity = await _unitOfWork.TaskRepository
                 .Query()
                 .Include(t=>t.Performer)
+                .ThenInclude(u=>u.Team)
                 .Include(t=>t.Project)
+                .ThenInclude(p=>p.Team)
                 .FirstOrDefaultAsync(t=>t.Id == id);
             if (taskEntity is null)
                 throw new NotFoundException(nameof(Assignment), id);
@@ -59,8 +64,6 @@ namespace ProjectStructure.BLL.Services
             taskEntity.PerformerId = task.PerformerId;
             taskEntity.Name = task.Name;
             taskEntity.Description = task.Description;
-            taskEntity.FinishedAt = task.FinishedAt;
-            taskEntity.State = task.State;
             _unitOfWork.TaskRepository.Update(taskEntity);
             await _unitOfWork.SaveChangesAsync();
         }

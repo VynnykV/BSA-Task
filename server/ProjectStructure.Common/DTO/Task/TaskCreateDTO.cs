@@ -10,6 +10,5 @@ namespace ProjectStructure.Common.DTO.Task
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        public TaskState State { get; set; }
     }
 }

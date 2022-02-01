@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ProjectTasksComponent } from "./components/project-tasks/project-tasks.component";
 import { EditTaskComponent } from "./components/edit-task/edit-task.component";
-import { CreateTaskComponent } from "./components/new-task/create-task.component";
+import { CreateTaskComponent } from "./components/create-task/create-task.component";
 
 const routes: Routes = [
   { path : 'project-tasks/:id', component : ProjectTasksComponent, pathMatch: 'full'},

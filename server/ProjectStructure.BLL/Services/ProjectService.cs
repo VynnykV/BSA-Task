@@ -34,6 +34,7 @@ namespace ProjectStructure.BLL.Services
             return _mapper.Map<IEnumerable<ProjectDTO>>(await _unitOfWork.ProjectRepository
                 .Query()
                 .Include(p=>p.Author)
+                .ThenInclude(u=>u.Team)
                 .Include(p=>p.Team)
                 .Include(p=>p.Tasks)
                 .ToListAsync());
@@ -44,6 +45,7 @@ namespace ProjectStructure.BLL.Services
             var projectEntity = await _unitOfWork.ProjectRepository
                 .Query()
                 .Include(p=>p.Author)
+                .ThenInclude(u=>u.Team)
                 .Include(p=>p.Team)
                 .Include(p=>p.Tasks)
                 .FirstOrDefaultAsync(p=>p.Id == id);

@@ -8,7 +8,7 @@ export interface Task {
   performer: User;
   name: string;
   description: string;
-  taskState: TaskState;
+  state: TaskState;
   createdAt: Date;
   finishedAt?: Date;
 }

@@ -41,7 +41,7 @@ export class CreateTaskComponent implements OnInit {
       performer: [null],
       name: [''],
       description: [''],
-      taskState: ['']
+      state: ['']
     });
   }
 
@@ -53,7 +53,6 @@ export class CreateTaskComponent implements OnInit {
         performerId: formValue.performer.id,
         name: formValue.name,
         description: formValue.description,
-        taskState: formValue.taskState
       } as NewTask;
     this.taskService
       .createTask(newTask)

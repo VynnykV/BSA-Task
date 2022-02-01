@@ -16,15 +16,6 @@
       <label for="description" class="form-label">Description</label>
       <input type="text" class="form-control" id="description" formControlName="description">
     </div>
-    <div class="mb-3">
-      <label for="taskState" class="form-label">State</label>
-      <select formControlName="taskState" id="taskState" class="form-select">
-        <option value="0">Created</option>
-        <option value="1">Cancelled</option>
-        <option value="2">Done</option>
-        <option value="3">InProgress</option>
-      </select>
-    </div>
     <button type="submit" class="btn btn-primary" (click)="createTask()">Create task</button>
   </form>
 </div>

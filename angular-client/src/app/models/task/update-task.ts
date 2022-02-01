@@ -5,6 +5,6 @@ export interface UpdateTask {
   performerId: number;
   name: string;
   description: string;
-  taskState: TaskState;
+  state: TaskState;
   finishedAt?: Date;
 }
