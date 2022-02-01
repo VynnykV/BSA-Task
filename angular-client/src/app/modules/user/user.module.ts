@@ -8,6 +8,7 @@ import { UsersComponent } from './components/users/users.component';
 import {UserService} from "./user.service";
 import {ReactiveFormsModule} from "@angular/forms";
 import {CustomDatePipe} from "./pipes/custom-date.pipe";
+import {LeaveEditingGuard} from "./guards/leave-editing.guard";
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import {CustomDatePipe} from "./pipes/custom-date.pipe";
     ReactiveFormsModule
   ],
   providers: [
-    UserService
+    UserService, LeaveEditingGuard
   ]
 })
 export class UserModule { }

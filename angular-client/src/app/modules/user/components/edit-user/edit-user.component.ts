@@ -5,13 +5,15 @@ import {UserService} from "../../user.service";
 import {UpdateUser} from "../../../../models/user/update-user";
 import {Team} from "../../../../models/team/team";
 import {TeamService} from "../../../team/team.service";
+import {ComponentCanDeactivate} from "../../guards/leave-editing.guard";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-edit-user',
   templateUrl: './edit-user.component.html',
   styleUrls: ['./edit-user.component.css']
 })
-export class EditUserComponent implements OnInit {
+export class EditUserComponent implements OnInit, ComponentCanDeactivate {
 
   teams: Team[] = [];
 
@@ -67,6 +69,10 @@ export class EditUserComponent implements OnInit {
       .subscribe(() => {
         this.router.navigate(['users']);
       });
+  }
+
+  canDeactivate(): boolean | Observable<boolean> {
+    return confirm("There are unsaved changes. Leave page?");;
   }
 
 }
