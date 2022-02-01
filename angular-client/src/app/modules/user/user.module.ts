@@ -7,13 +7,15 @@ import { EditUserComponent } from './components/edit-user/edit-user.component';
 import { UsersComponent } from './components/users/users.component';
 import {UserService} from "./user.service";
 import {ReactiveFormsModule} from "@angular/forms";
+import {CustomDatePipe} from "./pipes/custom-date.pipe";
 
 
 @NgModule({
   declarations: [
     CreateUserComponent,
     EditUserComponent,
-    UsersComponent
+    UsersComponent,
+    CustomDatePipe
   ],
   imports: [
     CommonModule,
