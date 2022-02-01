@@ -17,8 +17,8 @@ export class EditUserComponent implements OnInit, ComponentCanDeactivate {
 
   teams: Team[] = [];
 
-  public form: FormGroup;
-  public id: number;
+  public form!: FormGroup;
+  public id!: number;
 
   constructor(
     private userService: UserService,

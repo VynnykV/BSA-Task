@@ -15,8 +15,8 @@ export class EditProjectComponent implements OnInit {
 
   teams: Team[] = [];
 
-  public form: FormGroup;
-  public id: number;
+  public form!: FormGroup;
+  public id!: number;
 
   constructor(
     private projectService: ProjectService,

@@ -17,7 +17,7 @@ export class CreateTaskComponent implements OnInit {
   authors: User[] = [];
 
   form!: FormGroup;
-  projectId: number;
+  projectId!: number;
 
   constructor(
     private taskService: TaskService,

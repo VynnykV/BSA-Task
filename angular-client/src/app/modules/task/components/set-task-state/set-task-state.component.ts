@@ -11,9 +11,9 @@ import {FormBuilder, FormGroup} from "@angular/forms";
 })
 export class SetTaskStateComponent implements OnInit {
 
-  public form: FormGroup;
+  public form!: FormGroup;
 
-  id: number;
+  id!: number;
 
   constructor(
     private taskService: TaskService,

@@ -15,8 +15,8 @@ import {Location} from '@angular/common';
 export class EditTaskComponent implements OnInit {
   users: User[] = [];
 
-  public form: FormGroup;
-  public id: number;
+  public form!: FormGroup;
+  public id!: number;
 
   constructor(
     private userService: UserService,
