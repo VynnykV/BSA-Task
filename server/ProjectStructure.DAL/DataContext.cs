@@ -34,6 +34,11 @@ namespace ProjectStructure.DAL
                 .WithOne(p => p.Author)
                 .HasForeignKey(p => p.AuthorId);
 
+            modelBuilder.Entity<Team>()
+                .HasMany(t => t.Users)
+                .WithOne(u => u.Team)
+                .OnDelete(DeleteBehavior.SetNull);
+
             modelBuilder.Seed();
             base.OnModelCreating(modelBuilder);
         }

@@ -1,0 +1,25 @@
+<div class="form-container">
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <label for="team" class="form-label">Team</label>
+      <select formControlName="team" id="team" class="form-select">
+        <option *ngFor="let team of teams" [ngValue]="team">
+          {{ team.name }}
+        </option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" id="name" formControlName="name">
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <input type="text" class="form-control" id="description" formControlName="description">
+    </div>
+    <div class="mb-3">
+      <label for="deadline" class="form-label">Deadline</label>
+      <input type="datetime-local" class="form-control" id="deadline" formControlName="deadline">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="updateProject()">Update project</button>
+  </form>
+</div>

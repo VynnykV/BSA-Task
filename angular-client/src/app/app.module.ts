@@ -6,6 +6,9 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { GreetingComponent } from './components/greeting/greeting.component';
 import { TeamModule } from "./modules/team/team.module";
+import {UserModule} from "./modules/user/user.module";
+import {ProjectModule} from "./modules/project/project.module";
+import {TaskModule} from "./modules/task/task.module";
 
 @NgModule({
   declarations: [
@@ -16,7 +19,10 @@ import { TeamModule } from "./modules/team/team.module";
   imports: [
     BrowserModule,
     AppRoutingModule,
-    TeamModule
+    TeamModule,
+    UserModule,
+    ProjectModule,
+    TaskModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -31,12 +31,18 @@ namespace ProjectStructure.BLL.Services
 
         public async Task<IEnumerable<UserDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<UserDTO>>(await _unitOfWork.UserRepository.Query().ToListAsync());
+            return _mapper.Map<IEnumerable<UserDTO>>(await _unitOfWork.UserRepository
+                .Query()
+                .Include(u=>u.Team)
+                .ToListAsync());
         }
 
         public async Task<UserDTO> GetUserById(int id)
         {
-            var userEntity = await _unitOfWork.UserRepository.GetById(id);
+            var userEntity = await _unitOfWork.UserRepository
+                .Query()
+                .Include(u => u.Team)
+                .FirstOrDefaultAsync(u => u.Id == id);
             if (userEntity is null)
                 throw new NotFoundException((nameof(User), id));
             return _mapper.Map<UserDTO>(userEntity);

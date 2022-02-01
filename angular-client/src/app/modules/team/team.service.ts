@@ -5,9 +5,7 @@ import { Team } from "../../models/team/team";
 import { NewTeam } from "../../models/team/new-team";
 import { UpdateTeam } from "../../models/team/update-team";
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class TeamService {
   private url: string = environment.apiUrl + '/teams';
 

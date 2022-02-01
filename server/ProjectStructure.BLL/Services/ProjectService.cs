@@ -31,12 +31,22 @@ namespace ProjectStructure.BLL.Services
 
         public async Task<IEnumerable<ProjectDTO>> GetAll()
         {
-            return _mapper.Map<IEnumerable<ProjectDTO>>(await _unitOfWork.ProjectRepository.Query().ToListAsync());
+            return _mapper.Map<IEnumerable<ProjectDTO>>(await _unitOfWork.ProjectRepository
+                .Query()
+                .Include(p=>p.Author)
+                .Include(p=>p.Team)
+                .Include(p=>p.Tasks)
+                .ToListAsync());
         }
 
         public async Task<ProjectDTO> GetProjectById(int id)
         {
-            var projectEntity = await _unitOfWork.ProjectRepository.GetById(id);
+            var projectEntity = await _unitOfWork.ProjectRepository
+                .Query()
+                .Include(p=>p.Author)
+                .Include(p=>p.Team)
+                .Include(p=>p.Tasks)
+                .FirstOrDefaultAsync(p=>p.Id == id);
             if (projectEntity is null)
                 throw new NotFoundException(nameof(Project), id);
             return _mapper.Map<ProjectDTO>(projectEntity);

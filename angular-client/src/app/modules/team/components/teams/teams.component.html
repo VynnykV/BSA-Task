@@ -10,7 +10,7 @@
   <tr *ngFor="let team of teams">
     <td>{{team.id}}</td>
     <td>{{team.name}}</td>
-    <td>{{team.createdAt | date : 'shortDate'}}</td>
+    <td>{{team.createdAt | date : 'dd.MM.yyyy'}}</td>
     <td>
       <button type="button" class="btn btn-outline-warning" [routerLink]="['/edit-team', team.id]">Edit</button>
       <button type="button" class="btn btn-outline-danger" (click)="deleteTeam(team.id)">Delete</button>

@@ -5,10 +5,9 @@
       Angular-client
     </a>
     <div class="d-flex justify-content-end">
-      <button type="button" class="btn btn-light">Users</button>
+      <button type="button" class="btn btn-light" [routerLink]="['/users']">Users</button>
       <button type="button" class="btn btn-light" [routerLink]="['/teams']">Teams</button>
-      <button type="button" class="btn btn-light">Projects</button>
-      <button type="button" class="btn btn-light">Tasks</button>
+      <button type="button" class="btn btn-light" [routerLink]="['projects']">Projects</button>
     </div>
   </div>
 </nav>
