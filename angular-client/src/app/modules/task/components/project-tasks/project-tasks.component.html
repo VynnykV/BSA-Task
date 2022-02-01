@@ -20,7 +20,7 @@
     <td>{{task.createdAt | date : 'dd.MM.yyyy'}}</td>
     <td>{{task?.finishedAt | date : 'dd.MM.yyyy'}}</td>
     <td>
-      <button type="button" class="btn btn-outline-success">Change status</button>
+      <button type="button" class="btn btn-outline-success" [routerLink]="['/set-task-state', task.id]">Change status</button>
       <button type="button" class="btn btn-outline-warning" [routerLink]="['/edit-task', task.id]">Edit</button>
       <button type="button" class="btn btn-outline-danger" (click)="deleteTask(task.id)">Delete</button>
     </td>

@@ -7,13 +7,15 @@ import { EditTaskComponent } from './components/edit-task/edit-task.component';
 import {TaskService} from "./task.service";
 import { ProjectTasksComponent } from './components/project-tasks/project-tasks.component';
 import {ReactiveFormsModule} from "@angular/forms";
+import { SetTaskStateComponent } from './components/set-task-state/set-task-state.component';
 
 
 @NgModule({
   declarations: [
     CreateTaskComponent,
     EditTaskComponent,
-    ProjectTasksComponent
+    ProjectTasksComponent,
+    SetTaskStateComponent
   ],
     imports: [
         CommonModule,

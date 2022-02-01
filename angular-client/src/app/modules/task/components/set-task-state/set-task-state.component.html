@@ -1,0 +1,14 @@
+<div class="form-container">
+  <form [formGroup] = "form">
+    <div class="mb-3">
+      <label for="performer" class="form-label">State</label>
+      <select formControlName="state" id="performer" class="form-select">
+        <option value="0">Created</option>
+        <option value="1">Cancelled</option>
+        <option value="2">Done</option>
+        <option value="3">InProgress</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="updateState()">Submit</button>
+  </form>
+</div>

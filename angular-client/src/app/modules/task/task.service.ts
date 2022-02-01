@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {Task} from "../../models/task/task";
 import {NewTask} from "../../models/task/new-task";
 import {UpdateTask} from "../../models/task/update-task";
+import {TaskState} from "../../models/task/TaskState";
 
 @Injectable()
 export class TaskService {
@@ -25,6 +26,10 @@ export class TaskService {
 
   public updateTask(task: UpdateTask) {
     return this.httpClient.put(this.url, task);
+  }
+
+  public setNewState(id: number, state: TaskState) {
+    return this.httpClient.patch(`${this.url}/${id}/${state}`,"");
   }
 
   public deleteTask(id: number) {
