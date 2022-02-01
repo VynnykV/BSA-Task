@@ -1,0 +1,21 @@
+<div class="form-container">
+  <form [formGroup]="form">
+    <div class="mb-3">
+      <label for="performer" class="form-label">Performer</label>
+      <select formControlName="performer" id="performer" class="form-select">
+        <option *ngFor="let author of authors" [ngValue]="author">
+          {{author.lastName}} {{author.firstName}}
+        </option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input type="text" class="form-control" id="name" formControlName="name">
+    </div>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <input type="text" class="form-control" id="description" formControlName="description">
+    </div>
+    <button type="submit" class="btn btn-primary" (click)="createTask()">Create task</button>
+  </form>
+</div>
