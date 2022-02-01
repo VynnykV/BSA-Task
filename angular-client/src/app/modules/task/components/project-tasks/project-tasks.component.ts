@@ -14,7 +14,7 @@ export class ProjectTasksComponent implements OnInit {
 
   public tasks: Task[] = [];
   public taskState = TaskState;
-  public projectId: number;
+  public projectId!: number;
 
   private unsubscribe$ = new Subject<void>();
 
